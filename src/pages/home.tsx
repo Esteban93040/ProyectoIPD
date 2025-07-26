@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CsvUploadField } from '../components/csv-upload';
 import type { CsvFile } from '../components/csv-upload/types';
+
 import './Home.css';
 
 export const Home = () => {
@@ -25,6 +26,7 @@ export const Home = () => {
 
   return (
     <div className="home">
+      
       <div style={{ marginTop: '2rem', maxWidth: '600px', margin: '2rem auto' }}>
         <h2>Subir archivos CSV</h2>
         <CsvUploadField
