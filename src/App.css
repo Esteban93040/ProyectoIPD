@@ -3,26 +3,20 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  background-image: url("/background.png");
 }
 
-/* Hacer todos los componentes transparentes por defecto */
-* {
+/* Hacer todos los componentes DENTRO de root transparentes */
+
+/* Específicamente para Material-UI Box y Paper */
+#root .MuiBox-root,
+#root .MuiPaper-root {
+  background: transparent !important;
   background-color: transparent !important;
-  border-color: #ffffffb0 !important;
 }
 
 /* Excepciones para elementos que necesiten fondo visible */
-input[type="file"],
-button:hover,
-.MuiAlert-root,
-.error-message {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Clase para aplicar transparencia total */
-.transparent-all * {
-  background: transparent !important;
+#root .MuiAlert-root {
+  background-color: rgba(255, 0, 0, 0.1) !important;
 }
 
 .logo {

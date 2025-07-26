@@ -216,9 +216,8 @@ const CsvUploadField: React.FC<CsvUploadFieldProps> = ({
                   display: 'flex',
                   alignItems: 'center',
                   p: 2,
-                  border: '1px solid #e0e0e0',
+                  border: '1px solid rgba(224, 224, 224, 0.3)',
                   borderRadius: 1,
-                  backgroundColor: '#f9f9f9',
                 }}
               >
                 <DescriptionIcon sx={{ mr: 2, color: '#4caf50' }} />

@@ -38,7 +38,7 @@ export const Home = () => {
         />
         
         {csvFiles.length > 0 && (
-          <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: 'rgba(245, 245, 245, 0.1)', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)' }}>
+          <div style={{ marginTop: '1rem', padding: '1rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)' }}>
             <h3>Archivos cargados:</h3>
             <ul>
               {csvFiles.map((file, index) => (
