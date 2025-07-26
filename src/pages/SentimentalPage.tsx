@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CsvUploadField } from '../components/csv-upload';
+import { FileProcessingSection, type DateRange } from '../components/file-processing';
 import type { CsvFile } from '../components/csv-upload/types';
 import './PageStyles.css';
 
@@ -17,7 +18,7 @@ export const SentimentalPage = () => {
     alert(error);
   };
 
-  const processSentimentalAnalysis = async () => {
+  const processSentimentalAnalysis = async (dateRange?: DateRange) => {
     if (csvFiles.length === 0) {
       alert('Por favor, selecciona al menos un archivo CSV');
       return;
@@ -35,13 +36,17 @@ export const SentimentalPage = () => {
           files: csvFiles.map(file => ({
             name: file.name,
             content: file.content
-          }))
+          })),
+          dateRange: dateRange
         })
       });
 
       if (response.ok) {
         const result = await response.json();
         console.log('Resultado del análisis sentimental:', result);
+        if (dateRange && (dateRange.startDate || dateRange.endDate)) {
+          console.log('Filtros de fecha aplicados:', dateRange);
+        }
         alert('Análisis sentimental completado exitosamente');
       } else {
         throw new Error('Error en el análisis sentimental');
@@ -72,28 +77,15 @@ export const SentimentalPage = () => {
           value={csvFiles}
         />
         
-        {csvFiles.length > 0 && (
-          <div className="files-info">
-            <h3 style={{ color: '#ffffff'}}>Archivos listos para análisis:</h3>
-            <ul>
-              {csvFiles.map((file, index) => (
-                <li key={index}>
-                  <strong style={{ color: '#ffffff' }}>{file.name}</strong> - {Math.round(file.size / 1024)} KB
-                  <br />
-                  <small style={{ color: '#ffffff' }}>Filas: {file.content.split('\n').filter(line => line.trim()).length}</small>
-                </li>
-              ))}
-            </ul>
-            
-            <button 
-              className="process-btn sentimental"
-              onClick={processSentimentalAnalysis}
-              disabled={isLoading}
-            >
-              {isLoading ? 'Procesando...' : 'Iniciar Análisis Sentimental'}
-            </button>
-          </div>
-        )}
+        <FileProcessingSection
+          csvFiles={csvFiles}
+          isLoading={isLoading}
+          onProcess={processSentimentalAnalysis}
+          buttonText="Iniciar Análisis Sentimental"
+          buttonClassName="process-btn sentimental"
+          title="Archivos listos para análisis:"
+          showDateFilter={true}
+        />
       </div>
     </div>
   );

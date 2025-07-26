@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CsvUploadField } from '../components/csv-upload';
+import { FileProcessingSection, type DateRange } from '../components/file-processing';
 import type { CsvFile } from '../components/csv-upload/types';
 import './PageStyles.css';
 
@@ -17,7 +18,7 @@ export const FiveMinPage = () => {
     alert(error);
   };
 
-  const processFiveMinAnalysis = async () => {
+  const processFiveMinAnalysis = async (dateRange?: DateRange) => {
     if (csvFiles.length === 0) {
       alert('Por favor, selecciona al menos un archivo CSV');
       return;
@@ -35,13 +36,17 @@ export const FiveMinPage = () => {
           files: csvFiles.map(file => ({
             name: file.name,
             content: file.content
-          }))
+          })),
+          dateRange: dateRange
         })
       });
 
       if (response.ok) {
         const result = await response.json();
         console.log('Resultado del análisis 5 Min:', result);
+        if (dateRange && (dateRange.startDate || dateRange.endDate)) {
+          console.log('Filtros de fecha aplicados:', dateRange);
+        }
         alert('Análisis 5 Min completado exitosamente');
       } else {
         throw new Error('Error en el análisis 5 Min');
@@ -72,28 +77,15 @@ export const FiveMinPage = () => {
           value={csvFiles}
         />
         
-        {csvFiles.length > 0 && (
-          <div className="files-info">
-            <h3>Archivos listos para análisis:</h3>
-            <ul>
-              {csvFiles.map((file, index) => (
-                <li key={index}>
-                  <strong>{file.name}</strong> - {Math.round(file.size / 1024)} KB
-                  <br />
-                  <small>Filas: {file.content.split('\n').filter(line => line.trim()).length}</small>
-                </li>
-              ))}
-            </ul>
-            
-            <button 
-              className="process-btn five-min"
-              onClick={processFiveMinAnalysis}
-              disabled={isLoading}
-            >
-              {isLoading ? 'Procesando...' : 'Iniciar Análisis 5 Min'}
-            </button>
-          </div>
-        )}
+        <FileProcessingSection
+          csvFiles={csvFiles}
+          isLoading={isLoading}
+          onProcess={processFiveMinAnalysis}
+          buttonText="Iniciar Análisis 5 Min"
+          buttonClassName="process-btn five-min"
+          title="Archivos listos para análisis:"
+          showDateFilter={true}
+        />
       </div>
     </div>
   );
