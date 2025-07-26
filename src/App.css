@@ -3,7 +3,26 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  
+  background-image: url("/background.png");
+}
+
+/* Hacer todos los componentes transparentes por defecto */
+* {
+  background-color: transparent !important;
+  border-color: #ffffffb0 !important;
+}
+
+/* Excepciones para elementos que necesiten fondo visible */
+input[type="file"],
+button:hover,
+.MuiAlert-root,
+.error-message {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Clase para aplicar transparencia total */
+.transparent-all * {
+  background: transparent !important;
 }
 
 .logo {
